@@ -68,7 +68,7 @@ import {
   ApiMetric,
 } from "../../types/openapi";
 import { MetricRegressionAdjustmentStatus } from "../../types/report";
-import { postMetricValidator } from "../validators/openapi";
+import { postPutMetricValidator } from "../validators/openapi";
 import { EventAuditUser } from "../events/event-types";
 import { VisualChangesetInterface } from "../../types/visual-changeset";
 import { findProjectById } from "../models/ProjectModel";
@@ -935,12 +935,12 @@ export function toSnapshotApiInterface(
 }
 
 /**
- * While the `postMetricValidator` can detect the presence of values, it cannot figure out the correctness.
+ * While the `postPutMetricValidator` can detect the presence of values, it cannot figure out the correctness.
  * @param payload
  * @param datasource
  */
-export function postMetricApiPayloadIsValid(
-  payload: z.infer<typeof postMetricValidator.bodySchema>,
+export function postPutMetricApiPayloadIsValid(
+  payload: z.infer<typeof postPutMetricValidator.bodySchema>,
   datasource: Pick<DataSourceInterface, "type">
 ): { valid: true } | { valid: false; error: string } {
   const { type, sql, sqlBuilder, mixpanel, behavior } = payload;
@@ -1079,13 +1079,13 @@ export function postMetricApiPayloadIsValid(
 }
 
 /**
- * Converts the OpenAPI POST /metric payload to a {@link MetricInterface}
+ * Converts the OpenAPI POST and PUT /metric payload to a {@link MetricInterface}
  * @param payload
  * @param organization
  * @param datasource
  */
-export function postMetricApiPayloadToMetricInterface(
-  payload: z.infer<typeof postMetricValidator.bodySchema>,
+export function postPutMetricApiPayloadToMetricInterface(
+  payload: z.infer<typeof postPutMetricValidator.bodySchema>,
   organization: OrganizationInterface,
   datasource: Pick<DataSourceInterface, "type">
 ): Omit<MetricInterface, "dateCreated" | "dateUpdated" | "id"> {

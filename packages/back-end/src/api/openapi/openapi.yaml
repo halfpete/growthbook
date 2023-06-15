@@ -125,6 +125,8 @@ paths:
       $ref: "./paths/listMetrics.yaml"
     post:
       $ref: "./paths/postMetric.yaml"
+    put:
+      $ref: "./paths/putMetric.yaml"
   /metrics/{id}:
     get:
       $ref: "./paths/getMetric.yaml"

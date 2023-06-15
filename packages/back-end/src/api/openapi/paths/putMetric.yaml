@@ -1,0 +1,28 @@
+parameters: []
+tags:
+  - metrics
+summary: Update a single metric or create it if it doesn't exist
+operationId: putMetric
+x-codeSamples:
+  - lang: 'cURL'
+    source: |
+      curl -X PUT https://api.growthbook.io/api/v1/metrics \
+        -d '{ datasourceId: "ds_abc123", ... }'
+        -u secret_abc123DEF456:
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "../payload-schemas/PutMetricPayload.yaml"
+responses:
+  "200":
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - metric
+          properties:
+            metric:
+              $ref: "../schemas/Metric.yaml"

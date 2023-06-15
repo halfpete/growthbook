@@ -1,15 +1,15 @@
 import { PostMetricResponse } from "../../../types/openapi";
 import { createApiRequestHandler } from "../../util/handler";
-import { postMetricValidator } from "../../validators/openapi";
+import { postPutMetricValidator } from "../../validators/openapi";
 import {
   createMetric,
-  postMetricApiPayloadIsValid,
-  postMetricApiPayloadToMetricInterface,
+  postPutMetricApiPayloadIsValid,
+  postPutMetricApiPayloadToMetricInterface,
   toMetricApiInterface,
 } from "../../services/experiments";
 import { getDataSourceById } from "../../models/DataSourceModel";
 
-export const postMetric = createApiRequestHandler(postMetricValidator)(
+export const postMetric = createApiRequestHandler(postPutMetricValidator)(
   async (req): Promise<PostMetricResponse> => {
     const { datasourceId } = req.body;
 
@@ -21,12 +21,12 @@ export const postMetric = createApiRequestHandler(postMetricValidator)(
       throw new Error(`Invalid data source: ${datasourceId}`);
     }
 
-    const validationResult = postMetricApiPayloadIsValid(req.body, datasource);
+    const validationResult = postPutMetricApiPayloadIsValid(req.body, datasource);
     if (!validationResult.valid) {
       throw new Error(validationResult.error);
     }
 
-    const metric = postMetricApiPayloadToMetricInterface(
+    const metric = postPutMetricApiPayloadToMetricInterface(
       req.body,
       req.organization,
       datasource
